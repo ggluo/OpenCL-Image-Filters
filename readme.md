@@ -52,7 +52,7 @@ This repository provides an implementation of various image processing filters u
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/ggluo/opencl-image-filters.git
+   git clone https://github.com/ggluo/OpenCL-Image-Filters.git
    cd opencl-image-filters
    ```
 
