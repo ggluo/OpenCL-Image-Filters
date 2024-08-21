@@ -1,6 +1,6 @@
 #define CL_HPP_ENABLE_EXCEPTIONS
 
-#include <opencv4/opencv2/opencv.hpp>
+#include <opencv/opencv.hpp>
 #include <CL/opencl.hpp>
 #include <iostream>
 #include <fstream>
