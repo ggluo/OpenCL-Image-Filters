@@ -1,5 +1,5 @@
 
-# OpenCL Image Processing Filters with OpenCV
+# OpenCL Image Filters Examples
 
 This repository provides an implementation of various image processing filters using OpenCL and OpenCV. The filters include:
 
@@ -53,7 +53,7 @@ This repository provides an implementation of various image processing filters u
 1. **Clone the Repository**:
    ```bash
    git clone https://github.com/ggluo/OpenCL-Image-Filters.git
-   cd opencl-image-filters
+   cd OpenCL-Image-Filters
    ```
 
 2. **Compile the Code**:
@@ -81,7 +81,7 @@ This repository provides an implementation of various image processing filters u
 
 ## Kernel Files
 
-The `kernel.cl` file contains the OpenCL kernel code for the image processing filters. The kernels include:
+The [`kernel.cl`](./kernel.cl) file contains the OpenCL kernel code for the image processing filters. The kernels include:
 
 ### Mean Filter
 
