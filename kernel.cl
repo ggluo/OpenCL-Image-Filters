@@ -69,7 +69,7 @@ __kernel void sharpen_filter(__read_only image2d_t srcImage,
     write_imagef(dstImage, coords, clamp(sum, 0.0f, 1.0f)); // Clamping to valid range
 }
 
-__kernel void median_filter(__read_only image2d_t srcImage,
+__kernel void mean_filter(__read_only image2d_t srcImage,
                           __write_only image2d_t dstImage,
                           const int kernelSize) {
     int2 coords = (int2)(get_global_id(0), get_global_id(1));
@@ -93,4 +93,43 @@ __kernel void median_filter(__read_only image2d_t srcImage,
 
     // Write the result to the destination image
     write_imagef(dstImage, coords, average);
+}
+
+__kernel void median_filter(__read_only image2d_t srcImage,
+                            __write_only image2d_t dstImage,
+                            const int kernelSize) {
+    int2 coords = (int2)(get_global_id(0), get_global_id(1));
+    int halfSize = kernelSize / 2;
+
+    // Initialize the array to store the pixel values
+    float4 pixels[25]; // 5x5 kernel is the maximum size
+
+    // Iterate over the kernel
+    int index = 0;
+    for (int i = -halfSize; i <= halfSize; i++) {
+        for (int j = -halfSize; j <= halfSize; j++) {
+            // Read the pixel value from the image
+            float4 pixel = read_imagef(srcImage, sampler, coords + (int2)(i, j));
+            // Store the pixel value in the array
+            pixels[index] = pixel;
+            index++;
+        }
+    }
+
+    // Sort the array
+    for (int i = 0; i < kernelSize * kernelSize; i++) {
+        for (int j = i + 1; j < kernelSize * kernelSize; j++) {
+            if (pixels[i].x > pixels[j].x) {
+                float4 temp = pixels[i];
+                pixels[i] = pixels[j];
+                pixels[j] = temp;
+            }
+        }
+    }
+
+    // Get the median value
+    float4 median = pixels[kernelSize * kernelSize / 2];
+
+    // Write the result to the destination image
+    write_imagef(dstImage, coords, median);
 }

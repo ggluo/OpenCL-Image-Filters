@@ -196,6 +196,27 @@ int main(int argc, char** argv) {
         cv::imshow("Median Filtered Image", median);
         cv::imwrite("Median_Filtered_Image.jpg", median);
 
+        /**/
+        // Set up the OpenCL kernel for the mean filter
+        cl::Kernel meanKernel(program, "mean_filter");
+        meanKernel.setArg(0, srcImage);
+        meanKernel.setArg(1, dstImage);
+        meanKernel.setArg(2, 3);
+        
+        // Execute the kernel
+        queue.enqueueNDRangeKernel(meanKernel, cl::NullRange, global, cl::NullRange);
+        queue.enqueueReadImage(dstImage, CL_TRUE, {0, 0, 0}, {src.cols, src.rows, 1}, 0, 0, output.data());
+
+        // Convert the output to an OpenCV Mat
+        cv::Mat mean(src.rows, src.cols, CV_8UC4, output.data());
+
+        // Convert the image back to BGR for display
+        cv::cvtColor(mean, mean, cv::COLOR_RGBA2BGR);
+
+        // Display the mean filtered image
+        cv::imshow("Mean Filtered Image", mean);
+        cv::imwrite("Mean_Filtered_Image.jpg", mean);
+
         // Wait indefinitely until a key is pressed
         cv::waitKey(0);
 
