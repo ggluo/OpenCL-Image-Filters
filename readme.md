@@ -7,6 +7,7 @@ This repository provides an implementation of various image processing filters u
 - **Sharpening Filter**: For enhancing image edges.
 - **Bilateral Filter**: For edge-preserving smoothing.
 - **Mean Filter**: For averaging neighboring pixels.
+- **Median Filter**: For removing noise using median values.
 
 ## Requirements
 
